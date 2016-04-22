@@ -28,5 +28,7 @@ perm.give('matt').node('one.two.three');
 perm.give('matt').node('one.two.four');
 perm.give('matt').node('one.two.five');
 console.log(perm.does('matt').have().node('one.two.three')); // true
+perm.give('matt').node('javascript.hacker');
+console.log(perm.does('matt').have().node('javascript.hacker')); // true
 perm.give('matt').node('one.two.three.four');
 console.log(perm.does('matt').have().node('one.two')); // false

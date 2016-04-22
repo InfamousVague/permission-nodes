@@ -7,7 +7,7 @@
     "build": "gulp build",
     "dev": "gulp",
     "release": "gulp release",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node-karma src/test/"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "gulp-jsdoc3": "^0.2.1",
     "gulp-stylus": "^2.3.0",
     "gulp-util": "^3.0.7",
+    "jasmine-node-karma": "^1.6.1",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",

@@ -1,3 +1,5 @@
+import { have, give } from './methods';
+
 /**
  * Creates a new PermissionNodes group.
  * @class
@@ -15,7 +17,7 @@ class PermissionNodes {
 
     this.id = null;
 
-    this.handler = () => {};
+    this.handler = () => {/* noop */};
   }
 
   /**
@@ -35,45 +37,7 @@ class PermissionNodes {
    * @returns {object} this - returns PermissionNodes class.
   */
   have() {
-    this.handler = chain => {
-      let has = false;
-      const topLevelCheck = thing => {
-        let topLevel = false;
-
-        if (thing instanceof Object) {
-          topLevel = thing.full || false;
-        } else {
-          topLevel = thing || false;
-        }
-
-        return topLevel;
-      };
-
-      const unlink = (block, n) => {
-        // If it is a nested node
-        if (n.split('.').length) {
-          // N splits into more nodes, let's go deeper.
-          if (block[n.substr(0, n.indexOf('.'))]) {
-            // block exists, run it again
-            unlink(
-              block[n.substr(0, n.indexOf('.'))],
-              n.substr(n.indexOf('.') + 1)
-            );
-          } else {
-            has = topLevelCheck(block[n]);
-          }
-        } else {
-          // no nested nodes
-          has = topLevelCheck(block[n]);
-        }
-      };
-
-      unlink(this.options.permissions[this.id], chain);
-
-      return has;
-    };
-
-    return this;
+    return have.call(this);
   }
 
   /**
@@ -82,43 +46,19 @@ class PermissionNodes {
    * @returns {object} this - returns PermissionNodes class.
   */
   give(id) {
-    this.id = id;
-    this.handler = chain => {
-      const obj = {};
-      let nextObj = obj;
-      const unlinkedChain = chain.split('.');
-
-      // create value on object, then go deeper
-      const deepSetter = index => {
-        if (index + 1 < unlinkedChain.length) {
-          nextObj[unlinkedChain[index]] = {};
-          nextObj = nextObj[unlinkedChain[index]];
-          deepSetter(index + 1);
-        } else {
-          nextObj[unlinkedChain[index]] = {
-            full: true,
-          };
-
-          this.options.permissions[this.id] = Object.assign(
-            this.options.permissions[this.id],
-            obj,
-            {}
-          );
-          console.log(JSON.stringify(this.options.permissions[this.id]));
-        }
-      };
-
-      deepSetter(0);
-
-      return this;
-    };
-    return this;
+    return give.call(this, id);
   }
 
   take() {
 
   }
 
+  /**
+   * node calls this.helper with the supplied node chain.
+   * @method node
+   * @param {string} chain - permission node chain
+   * @returns {boolean} - returns boolean value
+  */
   node(chain) {
     return this.handler(chain);
   }

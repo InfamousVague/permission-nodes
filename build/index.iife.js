@@ -1,10 +1,96 @@
-var component = (function (_JSON$stringify,_Object$assign,_classCallCheck,_createClass) {
+var component = (function (_classCallCheck,_createClass,_typeof) {
   'use strict';
 
-  _JSON$stringify = 'default' in _JSON$stringify ? _JSON$stringify['default'] : _JSON$stringify;
-  _Object$assign = 'default' in _Object$assign ? _Object$assign['default'] : _Object$assign;
   _classCallCheck = 'default' in _classCallCheck ? _classCallCheck['default'] : _classCallCheck;
   _createClass = 'default' in _createClass ? _createClass['default'] : _createClass;
+  _typeof = 'default' in _typeof ? _typeof['default'] : _typeof;
+
+  var have = function have() {
+    var _this = this;
+
+    this.handler = function (chain) {
+      var has = false;
+      var topLevelCheck = function topLevelCheck(thing) {
+        var topLevel = false;
+
+        if (thing instanceof Object) {
+          topLevel = thing.full || false;
+        } else {
+          topLevel = thing || false;
+        }
+
+        return topLevel;
+      };
+
+      var unlink = function unlink(block, n) {
+        // If it is a nested node
+        if (n.split('.').length) {
+          // N splits into more nodes, let's go deeper.
+          if (block[n.substr(0, n.indexOf('.'))]) {
+            // block exists, run it again
+            unlink(block[n.substr(0, n.indexOf('.'))], n.substr(n.indexOf('.') + 1));
+          } else {
+            has = topLevelCheck(block[n]);
+          }
+        } else {
+          // no nested nodes
+          has = topLevelCheck(block[n]);
+        }
+      };
+
+      unlink(_this.options.permissions[_this.id], chain);
+
+      return has;
+    };
+
+    return this;
+  };
+
+  var deepAssign = function deepAssign(target, source) {
+    for (var key in source) {
+      if (source.hasOwnProperty(key)) {
+        var value = source[key];
+        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value) {
+          target[key] = target[key] || {};
+          deepAssign(target[key], value);
+        } else {
+          target[key] = value;
+        }
+      }
+    }
+    return target;
+  };
+
+  var give = function give(id) {
+    var _this = this;
+
+    this.id = id;
+    this.handler = function (chain) {
+      var obj = {};
+      var nextObj = obj;
+      var unlinkedChain = chain.split('.');
+
+      // create value on object, then go deeper
+      var deepSetter = function deepSetter(index) {
+        if (index + 1 < unlinkedChain.length) {
+          nextObj[unlinkedChain[index]] = {};
+          nextObj = nextObj[unlinkedChain[index]];
+          deepSetter(index + 1);
+        } else {
+          nextObj[unlinkedChain[index]] = {
+            full: true
+          };
+
+          _this.options.permissions[_this.id] = deepAssign(_this.options.permissions[_this.id], obj);
+        }
+      };
+
+      deepSetter(0);
+
+      return _this;
+    };
+    return this;
+  };
 
   /**
    * Creates a new PermissionNodes group.
@@ -53,45 +139,8 @@ var component = (function (_JSON$stringify,_Object$assign,_classCallCheck,_creat
 
     }, {
       key: 'have',
-      value: function have() {
-        var _this = this;
-
-        this.handler = function (chain) {
-          var has = false;
-          var topLevelCheck = function topLevelCheck(thing) {
-            var topLevel = false;
-
-            if (thing instanceof Object) {
-              topLevel = thing.full || false;
-            } else {
-              topLevel = thing || false;
-            }
-
-            return topLevel;
-          };
-
-          var unlink = function unlink(block, n) {
-            // If it is a nested node
-            if (n.split('.').length) {
-              // N splits into more nodes, let's go deeper.
-              if (block[n.substr(0, n.indexOf('.'))]) {
-                // block exists, run it again
-                unlink(block[n.substr(0, n.indexOf('.'))], n.substr(n.indexOf('.') + 1));
-              } else {
-                has = topLevelCheck(block[n]);
-              }
-            } else {
-              // no nested nodes
-              has = topLevelCheck(block[n]);
-            }
-          };
-
-          unlink(_this.options.permissions[_this.id], chain);
-
-          return has;
-        };
-
-        return this;
+      value: function have$$() {
+        return have.call(this);
       }
 
       /**
@@ -102,36 +151,8 @@ var component = (function (_JSON$stringify,_Object$assign,_classCallCheck,_creat
 
     }, {
       key: 'give',
-      value: function give(id) {
-        var _this2 = this;
-
-        this.id = id;
-        this.handler = function (chain) {
-          var obj = {};
-          var nextObj = obj;
-          var unlinkedChain = chain.split('.');
-
-          // create value on object, then go deeper
-          var deepSetter = function deepSetter(index) {
-            if (index + 1 < unlinkedChain.length) {
-              nextObj[unlinkedChain[index]] = {};
-              nextObj = nextObj[unlinkedChain[index]];
-              deepSetter(index + 1);
-            } else {
-              nextObj[unlinkedChain[index]] = {
-                full: true
-              };
-
-              _this2.options.permissions[_this2.id] = _Object$assign(_this2.options.permissions[_this2.id], obj, {});
-              console.log(_JSON$stringify(_this2.options.permissions[_this2.id]));
-            }
-          };
-
-          deepSetter(0);
-
-          return _this2;
-        };
-        return this;
+      value: function give$$(id) {
+        return give.call(this, id);
       }
     }, {
       key: 'take',
@@ -148,4 +169,4 @@ var component = (function (_JSON$stringify,_Object$assign,_classCallCheck,_creat
 
   return PermissionNodes;
 
-}(_JSON$stringify,_Object$assign,_classCallCheck,_createClass));
+}(_classCallCheck,_createClass,_typeof));
