@@ -171,8 +171,9 @@ var nodes = function nodes(chains) {
   var pass = true;
 
   var chainIterator = function chainIterator(index) {
-    if (_this.node(chains[index])) {
-      if (index + 1 <= chains.length) {
+    if (_this.handler(chains[index])) {
+
+      if (index + 1 < chains.length) {
         chainIterator(index + 1);
       }
     } else {
