@@ -1,13 +1,13 @@
 {
   "name": "permission-nodes",
-  "version": "0.0.1-pre",
+  "version": "0.1.2",
   "description": "Permission handling, using nodes.",
   "main": "build/index.js",
   "scripts": {
     "build": "gulp build",
     "dev": "gulp",
     "release": "gulp release",
-    "test": "jasmine-node-karma src/test/"
+    "test": "jasmine-node-karma --verbose src/test/"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "gulp-stylus": "^2.3.0",
     "gulp-util": "^3.0.7",
     "jasmine-node-karma": "^1.6.1",
+    "karma-mocha-reporter": "^2.0.2",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",

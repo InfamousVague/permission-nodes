@@ -1,4 +1,4 @@
-import { have, give } from './methods';
+import { have, give, take, nodes } from './methods';
 
 /**
  * Creates a new PermissionNodes group.
@@ -12,7 +12,7 @@ class PermissionNodes {
   */
   constructor(options) {
     this.options = {
-      permissions: (options) ? options.permissionObject : {},
+      permissions: (options) ? options.permissionObject || false : {},
     };
 
     this.id = null;
@@ -49,8 +49,13 @@ class PermissionNodes {
     return give.call(this, id);
   }
 
-  take() {
-
+  /**
+   * take takes the node from an id
+   * @method take
+   * @returns {object} this - returns PermissionNodes class.
+  */
+  take(id) {
+    return take.call(this, id);
   }
 
   /**
@@ -61,6 +66,33 @@ class PermissionNodes {
   */
   node(chain) {
     return this.handler(chain);
+  }
+
+  /**
+   * nodes calls this.helper on multiple chains.
+   * @method nodes
+   * @param {array} chains - permission node chains
+   * @returns {boolean} - returns boolean value
+  */
+  nodes(chains) {
+    return nodes.call(this, chains);
+  }
+
+  /**
+   * imports a new permissions object
+   * @method import
+  */
+  import(permissions) {
+    this.options.permissions = permissions;
+  }
+
+  /**
+   * export returns the permissions object.
+   * @method export
+   * @returns {object} - returns permissions object
+  */
+  export() {
+    return this.options.permissions;
   }
 
 }
