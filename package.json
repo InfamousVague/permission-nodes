@@ -1,6 +1,6 @@
 {
   "name": "permission-nodes",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Permission handling, using nodes.",
   "main": "build/index.js",
   "scripts": {

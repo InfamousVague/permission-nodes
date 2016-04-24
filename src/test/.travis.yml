@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "5.11.0"
+before_install:
+  - npm install -g karma
+  - npm install -g jasmine-node-karma
+  - npm install
+script:
+  - npm run test

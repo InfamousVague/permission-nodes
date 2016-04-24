@@ -24,10 +24,18 @@ describe("has(): when seeing if a user has a node", function() {
     expect(perm.does('matt').have().node('npm.create')).toBe(false);
   });
 
-  it("allows a range of nodes", function() {
+  it("allows a range of nodes to pass", function() {
     perm.give('matt')
       .node('npm.create')
       .node('npm.delete');
+
+    expect(perm.does('matt').have().nodes(['npm.create', 'npm.delete'])).toBe(true);
+  });
+
+  it("allows a range of nodes to fail", function() {
+    perm.give('matt')
+      .node('npm.create')
+      .node('npm.publish');
 
     expect(perm.does('matt').have().nodes(['npm.create', 'npm.delete'])).toBe(true);
   });

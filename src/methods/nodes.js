@@ -3,7 +3,6 @@ export const nodes = function nodes(chains) {
 
   const chainIterator = index => {
     if (this.handler(chains[index])) {
-
       if (index + 1 < chains.length) {
         chainIterator(index + 1);
       }

@@ -5,3 +5,4 @@ src
 .gitignore
 gulpfile.babel.js
 karma.conf.js
+.travis.yml
