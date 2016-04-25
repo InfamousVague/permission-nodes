@@ -19,7 +19,7 @@ const perm = new PermissionNodes({
   permissionObject: permissionObject
 });
 
-describe("when exporting a permissions object", function() {
+describe("export(): when exporting a permissions object", function() {
   it("returns the correct object", function() {
     expect(perm.export()).toBe(permissionObject);
   });

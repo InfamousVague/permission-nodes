@@ -1,6 +1,6 @@
 {
   "name": "permission-nodes",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Permission handling, using nodes.",
   "main": "build/index.js",
   "scripts": {
@@ -16,10 +16,12 @@
   "author": "wski <contact.mattdylan@gmail.com>",
   "license": "ISC",
   "keywords": [
-    "permission",
-    "nodes",
     "groups",
-    "manager"
+    "manager",
+    "managment",
+    "nodes",
+    "permission",
+    "permissions"
   ],
   "devDependencies": {
     "babel-core": "^6.6.5",

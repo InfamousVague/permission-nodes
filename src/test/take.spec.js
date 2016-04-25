@@ -16,7 +16,7 @@ const perm = new PermissionNodes({
   },
 });
 
-describe("when removing access to a node", function() {
+describe("take(): when removing access to a node", function() {
   it("nodes return true when node has not been revoked yet", function() {
     expect(perm.does('matt').have().node('javascript.ninja.sword')).toBe(true);
   });

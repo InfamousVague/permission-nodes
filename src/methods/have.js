@@ -7,7 +7,7 @@ export const have = function have() {
     // Make sure the id we're looking up actually exists.
     if (this.options.permissions[this.id]) {
       // Validate that our chain is of the correct type
-      if (chainValidator(chain)) {
+      if (chainValidator(chain, 'have')) {
         // Check to see if object is full, this allows for key: true, instead of
         // just using key: { full: true }, both work though.
         const topLevelCheck = thing => {

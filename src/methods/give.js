@@ -10,7 +10,7 @@ export const give = function give(id) {
 
   this.handler = chain => {
     // Validate that our chain is of the proper type
-    if (chainValidator(chain)) {
+    if (chainValidator(chain, 'give')) {
       const obj = {};
       let nextObj = obj;
       const unlinkedChain = chain.split('.');

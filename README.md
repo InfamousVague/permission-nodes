@@ -1,4 +1,7 @@
-# permission-nodes
+[![Build Status](https://img.shields.io/travis/wski/permission-nodes/master.svg?style=flat-square)](https://travis-ci.org/wski/permission-nodes)
+[![PRs Welcome](https://img.shields.io/badge/prs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![js-standard-style](https://img.shields.io/badge/code%20style-airbnb-brightgreen.svg?style=flat-square)](https://github.com/wski/ppermission-nodes)
+
 Node based permissions for JavaScript.
 
 ## Setup
@@ -65,6 +68,12 @@ perm.take('matt')
 ...or a whole group
 ```javascript
 perm.take('matt').node('github');
+```
+
+### .import()
+hotload a new permissions object
+```javascript
+perm.import({your: 'permissions'});
 ```
 
 ### .export()

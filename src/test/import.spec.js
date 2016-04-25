@@ -1,7 +1,7 @@
 const PermissionNodes = require('../../');
 const perm = new PermissionNodes();
 
-describe("when importing a permissions object", function() {
+describe("import(): when importing a permissions object", function() {
   it("have returns false before import", function() {
     expect(perm.does('matt').have().node('javascript.ninja.sword')).toBe(false);
   });

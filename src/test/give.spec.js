@@ -5,7 +5,7 @@ const perm = new PermissionNodes({
   },
 });
 
-describe("when giving access to a node", function() {
+describe("give(): when giving access to a node", function() {
   it("nodes return false when node has not been given yet", function() {
     expect(perm.does('matt').have().node('javascript.hacker')).toBe(false);
   });

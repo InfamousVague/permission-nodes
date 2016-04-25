@@ -84,6 +84,7 @@ class PermissionNodes {
   */
   import(permissions) {
     this.options.permissions = permissions;
+    return this;
   }
 
   /**
