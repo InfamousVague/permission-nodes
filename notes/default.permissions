@@ -1,0 +1,25 @@
+# user1
+  + github
+    + create
+      + wiki
+      - repo
+
+    + modify
+      + wiki
+      + repo
+      - organization
+
+  + npm
+    + publish
+    + unpublish
+
+  - gitlab
+
+# user2
+  + github
+
+  + npm
+    + *
+    - publish
+
+  + gitlab

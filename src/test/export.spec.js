@@ -15,9 +15,7 @@ const permissionObject = {
   },
 };
 
-const perm = new PermissionNodes({
-  permissionObject: permissionObject
-});
+const perm = new PermissionNodes(permissionObject);
 
 describe("export(): when exporting a permissions object", function() {
   it("returns the correct object", function() {

@@ -70,6 +70,12 @@ perm.take('matt')
 perm.take('matt').node('github');
 ```
 
+### .inheritance()
+inherit nodes from another id...
+```javascript
+perm.give('james').inheritance('matt');
+```
+
 ### .import()
 hotload a new permissions object
 ```javascript

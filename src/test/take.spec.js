@@ -1,18 +1,16 @@
 const PermissionNodes = require('../../');
-const perm = new PermissionNodes({
-  permissionObject: {
-    matt: {
-      javascript: {
-        ninja: {
-          sword: {
-            full: true
-          },
-          star: {
-            full: true
-          }
+const perm = new PermissionNodes(
+  matt: {
+    javascript: {
+      ninja: {
+        sword: {
+          full: true
+        },
+        star: {
+          full: true
         }
       }
-    },
+    }
   },
 });
 

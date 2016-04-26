@@ -5,7 +5,7 @@ export const have = function have() {
     let has = false;
 
     // Make sure the id we're looking up actually exists.
-    if (this.options.permissions[this.id]) {
+    if (this.permissions[this.id]) {
       // Validate that our chain is of the correct type
       if (chainValidator(chain, 'have')) {
         // Check to see if object is full, this allows for key: true, instead of
@@ -13,6 +13,8 @@ export const have = function have() {
         const topLevelCheck = thing => {
           let topLevel = false;
 
+          // TODO: take note, but continue to iterate to check if node contains
+          // the deny flag.
           if (thing instanceof Object) {
             topLevel = thing.full || false;
           } else {
@@ -50,7 +52,7 @@ export const have = function have() {
         };
 
         // Start unlinking our chain and doing checks
-        unlink(this.options.permissions[this.id], chain);
+        unlink(this.permissions[this.id], chain);
       }
     }
 

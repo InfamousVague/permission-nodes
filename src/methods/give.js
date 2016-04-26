@@ -4,8 +4,8 @@ export const give = function give(id) {
   this.id = id;
 
   // Safely create an ID if it doesn't yet exist.
-  if (!this.options.permissions[this.id]) {
-    this.options.permissions[this.id] = {};
+  if (!this.permissions[this.id]) {
+    this.permissions[this.id] = {};
   }
 
   this.handler = chain => {
@@ -33,8 +33,8 @@ export const give = function give(id) {
           };
 
           // Assign new object chain to permissions object
-          this.options.permissions[this.id] = deepAssign(
-            this.options.permissions[this.id],
+          this.permissions[this.id] = deepAssign(
+            this.permissions[this.id],
             obj
           );
         }

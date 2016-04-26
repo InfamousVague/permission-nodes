@@ -1,4 +1,4 @@
-import { have, give, take, nodes } from './methods';
+import { have, give, take, nodes, inherit } from './methods';
 
 /**
  * Creates a new PermissionNodes group.
@@ -7,16 +7,11 @@ import { have, give, take, nodes } from './methods';
 class PermissionNodes {
   /**
   * @constructs PermissionNodes
-  * @param {object} options - options such as permFile etc
-  * @param {string} options.permFile - file we should save to.
+  * @param {object} permissions - optional starting permission file
   */
-  constructor(options) {
-    this.options = {
-      permissions: (options) ? options.permissionObject || false : {},
-    };
-
+  constructor(permissions = {}) {
+    this.permissions = permissions;
     this.id = null;
-
     this.handler = () => {/* noop */};
   }
 
@@ -79,11 +74,21 @@ class PermissionNodes {
   }
 
   /**
+   * inheritance deepAssigns the values of the specified group over the other id specified in give
+   * @method inheritance
+   * @param {string} id - the id which we should inherit
+   * @returns {this} - returns this for chaining
+  */
+  inheritance(id) {
+    return inherit.call(this, id);
+  }
+
+  /**
    * imports a new permissions object
    * @method import
   */
   import(permissions) {
-    this.options.permissions = permissions;
+    this.permissions = permissions;
     return this;
   }
 
@@ -93,7 +98,7 @@ class PermissionNodes {
    * @returns {object} - returns permissions object
   */
   export() {
-    return this.options.permissions;
+    return this.permissions;
   }
 
 }

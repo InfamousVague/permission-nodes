@@ -1,8 +1,6 @@
 const PermissionNodes = require('../../');
 const perm = new PermissionNodes({
-  permissionObject: {
-    matt: {},
-  },
+  matt: {},
 });
 
 describe("give(): when giving access to a node", function() {

@@ -1,8 +1,6 @@
 const PermissionNodes = require('../../');
 const perm = new PermissionNodes({
-  permissionObject: {
-    matt: {},
-  },
+  matt: {},
 });
 
 describe("has(): when seeing if a user has a node", function() {

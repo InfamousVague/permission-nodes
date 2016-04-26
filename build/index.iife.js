@@ -20,9 +20,9 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     return target;
   };
 
-  var chainValidator = function chainValidator(chain) {
+  var chainValidator = function chainValidator(chain, method) {
     if (typeof chain !== 'string') {
-      throw new TypeError('The chain (' + chain + ') supplied is invalid. Expected string, got ' + (typeof chain === 'undefined' ? 'undefined' : _typeof(chain)));
+      throw new TypeError('The chain (' + chain + ') supplied is invalid. Expected string, got ' + (typeof chain === 'undefined' ? 'undefined' : _typeof(chain)) + '.\n      You should check what you\'re passing to the .' + method + '() method');
     }
 
     return chain;
@@ -35,15 +35,17 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
       var has = false;
 
       // Make sure the id we're looking up actually exists.
-      if (_this.options.permissions[_this.id]) {
+      if (_this.permissions[_this.id]) {
         // Validate that our chain is of the correct type
-        if (chainValidator(chain)) {
+        if (chainValidator(chain, 'have')) {
           (function () {
             // Check to see if object is full, this allows for key: true, instead of
             // just using key: { full: true }, both work though.
             var topLevelCheck = function topLevelCheck(thing) {
               var topLevel = false;
 
+              // TODO: take note, but continue to iterate to check if node contains
+              // the deny flag.
               if (thing instanceof Object) {
                 topLevel = thing.full || false;
               } else {
@@ -78,7 +80,7 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
             };
 
             // Start unlinking our chain and doing checks
-            unlink(_this.options.permissions[_this.id], chain);
+            unlink(_this.permissions[_this.id], chain);
           })();
         }
       }
@@ -95,13 +97,13 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     this.id = id;
 
     // Safely create an ID if it doesn't yet exist.
-    if (!this.options.permissions[this.id]) {
-      this.options.permissions[this.id] = {};
+    if (!this.permissions[this.id]) {
+      this.permissions[this.id] = {};
     }
 
     this.handler = function (chain) {
       // Validate that our chain is of the proper type
-      if (chainValidator(chain)) {
+      if (chainValidator(chain, 'give')) {
         (function () {
           var obj = {};
           var nextObj = obj;
@@ -125,7 +127,7 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
               };
 
               // Assign new object chain to permissions object
-              _this.options.permissions[_this.id] = deepAssign(_this.options.permissions[_this.id], obj);
+              _this.permissions[_this.id] = deepAssign(_this.permissions[_this.id], obj);
             }
           };
 
@@ -145,7 +147,7 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     this.id = id;
     this.handler = function (chain) {
       var unlinkedChain = chain.split('.');
-      var nextObj = _this.options.permissions[_this.id];
+      var nextObj = _this.permissions[_this.id];
 
       // create value on object, then go deeper
       var deepSetter = function deepSetter(index) {
@@ -171,7 +173,6 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
 
     var chainIterator = function chainIterator(index) {
       if (_this.handler(chains[index])) {
-
         if (index + 1 < chains.length) {
           chainIterator(index + 1);
         }
@@ -197,12 +198,12 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     * @param {string} options.permFile - file we should save to.
     */
 
-    function PermissionNodes(options) {
+    function PermissionNodes() {
+      var permissions = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
       _classCallCheck(this, PermissionNodes);
 
-      this.options = {
-        permissions: options ? options.permissionObject || false : {}
-      };
+      this.permissions = permissions;
 
       this.id = null;
 
@@ -287,6 +288,19 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
       }
 
       /**
+       * inheritance deepAssigns the values of the specified group over the other id specified in give
+       * @method inheritance
+       * @param {string} id - the id which we should inherit
+       * @returns {this} - returns this for chaining
+      */
+
+    }, {
+      key: 'inheritance',
+      value: function inheritance(id) {
+        return inherit.call(this, id);
+      }
+
+      /**
        * imports a new permissions object
        * @method import
       */
@@ -294,7 +308,8 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     }, {
       key: 'import',
       value: function _import(permissions) {
-        this.options.permissions = permissions;
+        this.permissions = permissions;
+        return this;
       }
 
       /**
@@ -306,7 +321,7 @@ var component = (function (_classCallCheck,_createClass,_typeof) {
     }, {
       key: 'export',
       value: function _export() {
-        return this.options.permissions;
+        return this.permissions;
       }
     }]);
 
